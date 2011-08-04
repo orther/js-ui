@@ -1,18 +1,124 @@
 <html>
     <head>
         <script type="text/javascript">
+        var animator = (function () {
+            var animationInt;
+            var tasks                = [];
+            var animatorIntervalTime = 20; // In milliseconds
+
+            /**
+             * This is the default animation object that is processed by the animation manager.
+             */
+            var animationTask = function (params) {
+                // assign default properties
+                this.activeStep = 0;
+                this.totalSteps = 0;
+                this.duration   = 0;
+
+                // assign default functions
+                this.getTotalSteps = function (time) {
+                    return false;
+                }
+                this.step = function () {
+                    // we return false when this animation is finished.
+                    return false;
+                }
+
+                // assign incoming properties
+                for (var key in params) {
+                    this[key] = params[key];
+                }
+
+                // calculate total steps
+                this.totalSteps = this.duration / animatorIntervalTime;
+            }
+
+            /**
+             * This function takes in params for an animation that is pushed into the animation task queue.
+             */
+            function animate (params) {
+                // add new animation task to task queue
+                tasks.push(new animationTask(params));
+
+                if (tasks.length == 1) {
+                    // start animation interval timer since this is the first item in the task queue
+                    start();
+                }
+            }
+
+            /**
+             * This function is called for each interval and then cycles through the animation tasks.
+             */
+            function animationManager () {
+                if (tasks.length > 0) {
+                    for (var i = 0, len = tasks.length; i < len; i++) {
+                        if (tasks[i].step() == false) {
+                            // remove animation tasks
+                            logToScreen("remove animation");
+                            tasks.splice(i, 1);
+                        }
+                    }
+                }
+
+                if (tasks.length < 1) {
+                    // remove animation interval timer since there are no animation tasks
+                    stop();
+                }
+            }
+
+            /**
+             * Start animation interval timer and store refernce for later use (to stop interval).
+             */
+            function start () {
+                log("Animator started");
+                animationInt = window.setInterval(animationManager, animatorIntervalTime);
+            }
+
+            /**
+             * Stop animation interval timer.
+             */
+            function stop () {
+                window.clearInterval(animationInt);
+            }
+
+            return {
+                "animate": animate
+            };
+        })();
+
+
+
+
+        /**
+         * Log to console or fall back to alert
+         */
         var log = function (log) {
+            /*
             try {
                 console.log(log);
             } catch (e) {
                 alert(log);
             }
+            */
         };
+
+        /**
+         * Log to screen div.
+         */
         var logToScreen = function (log) {
+            /*
             var log_space = document.getElementById("log-data");
 
             log_space.innerHTML = log + "<br>" + log_space.innerHTML;
+            */
         };
+
+
+
+
+        /**
+         * Allow for easy attach event handlers for both W3 and IE browsers.
+         */
         function addEvent(obj, evType, fn){
             if (obj.addEventListener){
                 obj.addEventListener(evType, fn, false);
@@ -25,10 +131,8 @@
             }
         }
 
-        <!-- animation functions -->
-        function growShrink (dom_object) {
-            var start_size = dom_object.style.width;
-        }
+
+
 
         /**
          * Slide from one screen to the next.
@@ -38,12 +142,32 @@
          */
         function slideNewScreen (active_screen, new_screen) {
             // position and display new screen to be ready for slide in
-            new_screen.style.left      = active_screen.clientWidth;
+            new_screen.style.left      = document.body.offsetWidth;
             new_screen.style.zIndex    = 100;
             new_screen.style.display   = "block";
 
             active_screen.style.zIndex = 50;
 
+            animator.animate({
+                duration: 500,
+                step: function () {
+                    new_screen.style.left    = document.body.offsetWidth - (((document.body.offsetWidth-0)/this.totalSteps) * this.activeStep);
+                    active_screen.style.left = 0 - (((document.body.offsetWidth-0)/this.totalSteps) * this.activeStep);
+
+                    this.activeStep++;
+
+                    logToScreen("doing it: " + this.activeStep + ">" + this.totalSteps);
+                    if (this.activeStep > this.totalSteps) {
+                        return false;
+                        active_screen.style.display = "none";
+
+                    }
+
+                    return true;
+
+                }
+            });
+            /*
             if (new_screen.slideNewScreenMemInt) {
                 // remove existing slide new screen interval
                 window.clearInterval(new_screen.slideNewScreenMemInt);
@@ -66,6 +190,7 @@
                     active_screen.style.display = "none";
                 }
 	        }, intervalTime*1000);
+            */
         }
         <!-- start animating on page load complete -->
         addEvent(window, 'load', function () {
@@ -75,11 +200,11 @@
             screen_1.style.display = "block";
             screen_1.style.zIndex  = 100;
 
-            document.getElementById("go-screen-2").addEventListener('click', function () {
+            addEvent(document.getElementById("go-screen-2"), "click", function () {
                 slideNewScreen(screen_1, screen_2);
                 return false;
             }, true);
-            document.getElementById("go-screen-1").addEventListener('click', function () {
+            addEvent(document.getElementById("go-screen-1"), "click", function () {
                 slideNewScreen(screen_2, screen_1);
                 return false;
             }, true);
@@ -144,7 +269,7 @@
             width: 100%;
             height: 100%;
             position: fixed;
-            /* border-left: 1px solid #000; */
+            border-left: 1px solid #000;
             display: none;
         }
             div.screen h1 {

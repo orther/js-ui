@@ -1,0 +1,208 @@
+<html>
+    <head>
+        <script type="text/javascript">
+        var log = function (log) {
+            try {
+                console.log(log);
+            } catch (e) {
+                alert(log);
+            }
+        };
+        var logToScreen = function (log) {
+            var log_space = document.getElementById("log-data");
+
+            log_space.innerHTML = log + "<br>" + log_space.innerHTML;
+        };
+        function addEvent(obj, evType, fn){
+            if (obj.addEventListener){
+                obj.addEventListener(evType, fn, false);
+                return true;
+            } else if (obj.attachEvent){
+                var r = obj.attachEvent("on"+evType, fn);
+                return r;
+            } else {
+                return false;
+            }
+        }
+
+        <!-- animation functions -->
+        function growShrink (dom_object) {
+            var start_size = dom_object.style.width;
+        }
+
+        /**
+         * Slide from one screen to the next.
+         *
+         * @param active_screen (HTMLDivElement)
+         * @param new_screen    (HTMLDivElement)
+         */
+        function slideNewScreen (active_screen, new_screen) {
+            // position and display new screen to be ready for slide in
+            new_screen.style.left      = active_screen.clientWidth;
+            new_screen.style.zIndex    = 100;
+            new_screen.style.display   = "block";
+
+            active_screen.style.zIndex = 50;
+
+            if (new_screen.slideNewScreenMemInt) {
+                // remove existing slide new screen interval
+                window.clearInterval(new_screen.slideNewScreenMemInt);
+            }
+
+            var activeStep   = 0;
+            var intervalTime = 0.02; // time in seconds
+            var slideTime    = 0.50;  // time in seconds
+            var steps        = slideTime/intervalTime; // number or steps
+
+            new_screen.slideNewScreenMemInt = window.setInterval(function() {
+
+                // apply single animation step
+                new_screen.style.left = active_screen.clientWidth -(((active_screen.clientWidth-0)/steps) * activeStep);
+	            activeStep++;
+
+                if (activeStep > steps) {
+                    // stop interval and deactivate main screen
+                    window.clearInterval(new_screen.slideNewScreenMemInt);
+                    active_screen.style.display = "none";
+                }
+	        }, intervalTime*1000);
+        }
+        <!-- start animating on page load complete -->
+        addEvent(window, 'load', function () {
+            var screen_1 = document.getElementById("screen-1");
+            var screen_2 = document.getElementById("screen-2");
+
+            screen_1.style.display = "block";
+            screen_1.style.zIndex  = 100;
+
+            document.getElementById("go-screen-2").addEventListener('click', function () {
+                slideNewScreen(screen_1, screen_2);
+                return false;
+            }, true);
+            document.getElementById("go-screen-1").addEventListener('click', function () {
+                slideNewScreen(screen_2, screen_1);
+                return false;
+            }, true);
+        });
+        </script>
+        <style type="text/css">
+        html, body, div, span, applet, object, iframe,
+        h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+        a, abbr, acronym, address, big, cite, code,
+        del, dfn, em, img, ins, kbd, q, s, samp,
+        small, strike, strong, sub, sup, tt, var,
+        b, u, i, center,
+        dl, dt, dd, ol, ul, li,
+        fieldset, form, label, legend,
+        table, caption, tbody, tfoot, thead, tr, th, td,
+        article, aside, canvas, details, embed,
+        figure, figcaption, footer, header, hgroup,
+        menu, nav, output, ruby, section, summary,
+        time, mark, audio, video {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font-size: 100%;
+            font: inherit;
+            vertical-align: baseline;
+        }
+        /* HTML5 display-role reset for older browsers */
+        article, aside, details, figcaption, figure,
+        footer, header, hgroup, menu, nav, section {
+            display: block;
+        }
+        body {
+            line-height: 1;
+            /* overflow: hidden; */
+        }
+        ol, ul {
+            list-style: none;
+        }
+        blockquote, q {
+            quotes: none;
+        }
+        blockquote:before, blockquote:after,
+        q:before, q:after {
+            content: '';
+            content: none;
+        }
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+
+        /* App Styles */
+        body {
+            background: #e0e0e0;
+            font-size: 13px;
+            font-family: Arial, SunSans-Regular, Sans-Serif;
+            color:       #564b47;
+        }
+        div.screen {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            /* border-left: 1px solid #000; */
+            display: none;
+        }
+            div.screen h1 {
+                display: block;
+                width: 100%;
+                background: #000;
+                color: #fff;
+            }
+            div.screen h1 a {
+                padding: 10px;
+                color: #f0f0f0;
+                display: block;
+            }
+            div.screen>div {
+                padding: 10px;
+                background: #f0f0f0;
+            }
+
+        div#log {
+            display: block;
+            z-index: 1000;
+            border: 1px solid #564b47;
+            margin: 0;
+            padding: 0;
+            width: 90%;
+            height: 40%;
+            top: 55%;
+            left: 5%;
+            position: fixed;
+            background: #fff;
+            color: #000;
+            overflow: hidden;
+        }
+            div#log h1 {
+                font-weight: bold;
+                background: #f0f0f0;
+                padding: 10px;
+                border-bottom: 1px solid #564b47;
+
+            }
+            div#log div#log-data {
+                padding: 5px;
+            }
+
+        </style>
+    </head>
+    <body bgcolor="white" text="blue">
+        <div id="screen-1" class="screen">
+            <h1><a href="#screen-2" id="go-screen-2">Go Screen #2</a></h1>
+            <div>Screen one!</div>
+        </div>
+        <div id="screen-2" class="screen">
+            <h1><a href="#screen-1" id="go-screen-1">Go Screen #1</a></h1>
+            <div>Screen two!</div>
+        </div>
+        <div id="log">
+            <h1>Log Data</h1>
+            <div id="log-data"></div>
+        </div>
+    </body>
+</html>

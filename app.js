@@ -49,16 +49,15 @@ var logToScreen = function (log) {
 function slideNewScreen (current_screen, new_screen) {
     // move new screen to right of view to setup for slid in effect
     Firmin.translateX(new_screen, document.body.offsetWidth, 0, function () {
-        // slide out current screen
-        Firmin.animate(current_screen, {
-            translateX: "-" + document.body.offsetWidth + "px",
-            timingFunction:  "ease-out"
-        }, "0.5s");
-
         // slide in new screen
         Firmin.animate(new_screen, {
-            translateX:      "0",
-            timingFunction:  "ease-out"
+            translateX:     0,
+            timingFunction: "ease-out"
+        }, "0.5s");
+        // slide out current screen
+        Firmin.animate(current_screen, {
+            translateX:     0 - document.body.offsetWidth,
+            timingFunction: "ease-out"
         }, "0.5s");
     });
 

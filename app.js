@@ -87,11 +87,11 @@ addEvent(window, 'load', function () {
     screen_1.style.display = "block";
     screen_1.style.zIndex  = 100;
 
-    addEvent(document.getElementById("go-screen-2"), "click", function () {
+    addEvent(document.getElementById("slide-screen-2"), "click", function () {
         slideNewScreen(screen_1, screen_2);
         return false;
     }, true);
-    addEvent(document.getElementById("go-screen-1"), "click", function () {
+    addEvent(document.getElementById("slide-screen-1"), "click", function () {
         slideNewScreen(screen_2, screen_1);
         return false;
     }, true);

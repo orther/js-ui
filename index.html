@@ -4,21 +4,18 @@
         var animator = (function () {
             var animationInt;
             var tasks                = [];
-            var animatorIntervalTime = 20; // In milliseconds
+            var animatorIntervalTime = 13; // In milliseconds
 
             /**
              * This is the default animation object that is processed by the animation manager.
              */
             var animationTask = function (params) {
                 // assign default properties
+                this.startTime = (new Date).getTime();
                 this.activeStep = 0;
-                this.totalSteps = 0;
                 this.duration   = 0;
 
                 // assign default functions
-                this.getTotalSteps = function (time) {
-                    return false;
-                }
                 this.step = function () {
                     // we return false when this animation is finished.
                     return false;
@@ -30,7 +27,8 @@
                 }
 
                 // calculate total steps
-                this.totalSteps = this.duration / animatorIntervalTime;
+                this.totalSteps = (this.duration / animatorIntervalTime) + 1;
+                logToScreen(this.totalSteps);
             }
 
             /**
@@ -50,19 +48,12 @@
              * This function is called for each interval and then cycles through the animation tasks.
              */
             function animationManager () {
-                if (tasks.length > 0) {
-                    for (var i = 0, len = tasks.length; i < len; i++) {
-                        if (tasks[i].step() == false) {
-                            // remove animation tasks
-                            logToScreen("remove animation");
-                            tasks.splice(i, 1);
-                        }
+                 for (var i = tasks.length; i--;) {
+                    if (tasks[i].step() == false) {
+                        // remove animation tasks
+                        logToScreen("remove animation");
+                        tasks.splice(i, 1);
                     }
-                }
-
-                if (tasks.length < 1) {
-                    // remove animation interval timer since there are no animation tasks
-                    stop();
                 }
             }
 
@@ -70,7 +61,6 @@
              * Start animation interval timer and store refernce for later use (to stop interval).
              */
             function start () {
-                log("Animator started");
                 animationInt = window.setInterval(animationManager, animatorIntervalTime);
             }
 
@@ -93,24 +83,20 @@
          * Log to console or fall back to alert
          */
         var log = function (log) {
-            /*
             try {
                 console.log(log);
             } catch (e) {
                 alert(log);
             }
-            */
         };
 
         /**
          * Log to screen div.
          */
         var logToScreen = function (log) {
-            /*
             var log_space = document.getElementById("log-data");
 
             log_space.innerHTML = log + "<br>" + log_space.innerHTML;
-            */
         };
 
 
@@ -151,46 +137,29 @@
             animator.animate({
                 duration: 500,
                 step: function () {
-                    new_screen.style.left    = document.body.offsetWidth - (((document.body.offsetWidth-0)/this.totalSteps) * this.activeStep);
-                    active_screen.style.left = 0 - (((document.body.offsetWidth-0)/this.totalSteps) * this.activeStep);
+                    var currentTime = (new Date).getTime();
+                    var elapsedTime = currentTime - this.startTime;
+                    var newState    = elapsedTime / this.duration;
 
-                    this.activeStep++;
-
-                    logToScreen("doing it: " + this.activeStep + ">" + this.totalSteps);
-                    if (this.activeStep > this.totalSteps) {
-                        return false;
+                    if (newState >= 1) {
+                        // update elements to final animation frame
+                        new_screen.style.left       = 0;
+                        active_screen.style.left    = 0 - document.body.offsetWidth;
                         active_screen.style.display = "none";
 
+                        return false;
                     }
 
-                    return true;
+                    // update elements to next animation frame
+                    new_screen.style.left    = document.body.offsetWidth - (document.body.offsetWidth * newState);
+                    active_screen.style.left = 0 - (document.body.offsetWidth * newState);
 
+                    log(active_screen.style.left);
+                    log(new_screen.style.left);
+
+                    return true;
                 }
             });
-            /*
-            if (new_screen.slideNewScreenMemInt) {
-                // remove existing slide new screen interval
-                window.clearInterval(new_screen.slideNewScreenMemInt);
-            }
-
-            var activeStep   = 0;
-            var intervalTime = 0.02; // time in seconds
-            var slideTime    = 0.50;  // time in seconds
-            var steps        = slideTime/intervalTime; // number or steps
-
-            new_screen.slideNewScreenMemInt = window.setInterval(function() {
-
-                // apply single animation step
-                new_screen.style.left = active_screen.clientWidth -(((active_screen.clientWidth-0)/steps) * activeStep);
-	            activeStep++;
-
-                if (activeStep > steps) {
-                    // stop interval and deactivate main screen
-                    window.clearInterval(new_screen.slideNewScreenMemInt);
-                    active_screen.style.display = "none";
-                }
-	        }, intervalTime*1000);
-            */
         }
         <!-- start animating on page load complete -->
         addEvent(window, 'load', function () {
@@ -259,7 +228,7 @@
         /* App Styles */
         body {
             background: #e0e0e0;
-            font-size: 13px;
+            font-size: 20pt;
             font-family: Arial, SunSans-Regular, Sans-Serif;
             color:       #564b47;
         }
@@ -289,7 +258,7 @@
             }
 
         div#log {
-            display: block;
+            display: none;
             z-index: 1000;
             border: 1px solid #564b47;
             margin: 0;

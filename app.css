@@ -12,7 +12,11 @@ div.screen {
     height: 100%;
     position: fixed;
     border-left: 1px solid #000;
-    display: none;
+    /*-webkit-transition: all 0.5s ease-out;*/
+    -webkit-transition: all 0;
+    -webkit-transform: translate(100%, 0);
+}
+div.screen.active {
 }
     div.screen h1 {
         display: block;

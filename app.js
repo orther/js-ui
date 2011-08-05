@@ -1,3 +1,4 @@
+
 /**
  * Allow for easy attach event handlers for both W3 and IE browsers.
  */
@@ -42,16 +43,46 @@ var logToScreen = function (log) {
 /**
  * Slide from one screen to the next.
  *
- * @param active_screen (HTMLDivElement)
- * @param new_screen    (HTMLDivElement)
+ * @param current_screen (HTMLDivElement)
+ * @param new_screen     (HTMLDivElement)
  */
-function slideNewScreen (active_screen, new_screen) {
+function slideNewScreen (current_screen, new_screen) {
+    // move new screen to right of view to setup for slid in effect
+    Firmin.translateX(new_screen, document.body.offsetWidth, 0, function () {
+        // slide out current screen
+        Firmin.animate(current_screen, {
+            translateX: "-" + document.body.offsetWidth + "px",
+            timingFunction:  "ease-out"
+        }, "0.5s");
+
+        // slide in new screen
+        Firmin.animate(new_screen, {
+            translateX:      "0",
+            timingFunction:  "ease-out"
+        }, "0.5s");
+    });
+
+    //Firmin.animate(new_screen, {translateX: document.body.offsetWidth}, 0);
+
+
+    // slide out current screen
+    /*
+    */
+    /*
+    new_screen.style.cssText     = "-webkit-transition: all 0; -webkit-transform: translate(100%, 0);";
+    current_screen.style.cssText = "-webkit-transition: all 0.5s ease-out; -webkit-transform: translate(-100%, 0);";
+    new_screen.style.cssText     = "-webkit-transition: all 0.5s ease-out; -webkit-transform: translate(0%, 0);";
+
+    //
+    //-webkit-transition: all 0.5s ease-out;
+
+    /*
     // position and display new screen to be ready for slide in
     new_screen.style.left      = document.body.offsetWidth;
     new_screen.style.zIndex    = 100;
     new_screen.style.display   = "block";
 
-    active_screen.style.zIndex = 50;
+    current_screen.style.zIndex = 50;
 
     animator.animate({
         duration: 300,
@@ -63,19 +94,20 @@ function slideNewScreen (active_screen, new_screen) {
             if (newState >= 1) {
                 // update elements to final animation frame
                 new_screen.style.left       = 0;
-                active_screen.style.left    = 0 - document.body.offsetWidth;
-                active_screen.style.display = "none";
+                current_screen.style.left    = 0 - document.body.offsetWidth;
+                current_screen.style.display = "none";
 
                 return false;
             }
 
             // update elements to next animation frame
             new_screen.style.left    = document.body.offsetWidth - (document.body.offsetWidth * newState);
-            active_screen.style.left = 0 - (document.body.offsetWidth * newState);
+            current_screen.style.left = 0 - (document.body.offsetWidth * newState);
 
             return true;
         }
     });
+    */
 }
 
 // -----------------------------------------------------------------------------------------------------------------
@@ -84,8 +116,8 @@ addEvent(window, 'load', function () {
     var screen_1 = document.getElementById("screen-1");
     var screen_2 = document.getElementById("screen-2");
 
-    screen_1.style.display = "block";
-    screen_1.style.zIndex  = 100;
+    // show first screen
+    Firmin.translateX(screen_1, 0);
 
     addEvent(document.getElementById("slide-screen-2"), "click", function () {
         slideNewScreen(screen_1, screen_2);

@@ -62,7 +62,7 @@ x$.ready(function () {
     logToScreen(navigator.userAgent);
 
     if ((navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPod/i)) ||
-        (navigator.userAgent.match(/Android/i)) ||(navigator.userAgent.match(/BlackBerry/i))) {
+        (navigator.userAgent.match(/Android/i))) {
         clickEvent = "touchstart";
     }
 

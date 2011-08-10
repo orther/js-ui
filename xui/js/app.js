@@ -58,8 +58,8 @@ function slideNewScreen (current_screen, new_screen) {
 
 x$.ready(function () {
 
-    /*
     var clickEvent = "click";
+    /*
 
     logToScreen(navigator.userAgent);
 
@@ -77,5 +77,9 @@ x$.ready(function () {
         slideNewScreen("#screen-2", "#screen-1");
     });
     */
+    x$("#main div.tab-bar div.tab").on(clickEvent, function (e) {
+        x$("#main div.tab-bar div.tab").removeClass("selected");
+        x$(this).addClass("selected");
+    });
 
 });

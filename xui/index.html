@@ -3,24 +3,27 @@
         <script src="js/xui-2.2.0.min.js" type="text/javascript"></script>
         <script src="js/app.js" type="text/javascript"></script>
         <link rel="stylesheet" href="reset.css" type="text/css" media="screen">
-        <link rel="stylesheet" href="app.css" type="text/css" media="screen">
+        <link rel="stylesheet" href="skin/app.css" type="text/css" media="screen">
     </head>
     <body>
-        <div id="screen-1" class="screen">
-            <h1><span class="titleButton" id="slide-screen-2">Slide Screen #2</span></h1>
-            <div>Screen one!</div>
-            <div class="log">
-                <div class="title">Log Data</div>
-                <div class="log-data"></div>
+        <section id="main">
+            <div class="header">
+                <img src="skin/images/logo.png" class="logo">
             </div>
-        </div>
-        <div id="screen-2" class="screen">
-            <h1><span class="titleButton" id="slide-screen-1">Slide Screen #1</span></h1>
-            <div>Screen two!</div>
-            <div class="log">
-                <div class="title">Log Data</div>
-                <div class="log-data"></div>
+            <div class="tab-bar">
+                <div class="tab chats">
+                    <img src="skin/images/main_tab_chats_selected.png" class="selected-image">
+                    <img src="skin/images/main_tab_chats_unselected.png" class="unselected-image">
+                    <div class="label">Chats</div>
+                </div>
+                <div class="tab friends selected">
+                    <img src="skin/images/main_tab_friendslist_selected.png" class="selected-image">
+                    <img src="skin/images/main_tab_friendslist_unselected.png" class="unselected-image">
+                    <div class="label">Friends</div>
+                </div>
             </div>
-        </div>
+        </section>
+        <section id="chats">
+        </section>
     </body>
 </html>

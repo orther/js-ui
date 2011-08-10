@@ -1,0 +1,68 @@
+body {
+    overflow: hidden;
+    font-family: Arial, SunSans-Regular, Sans-Serif;
+}
+
+section {
+    width: 480px;
+    height: 100%;
+}
+
+    section#main {
+
+    }
+
+        section#main div.header {
+            background-image: url('images/header_bar.png');
+            background-repeat: no-repeat;
+            height: 65px;
+            width:  483px;
+        }
+            section#main div.header img.logo {
+                left: 150px;
+                position: absolute;
+                top: 8px;
+                width: 180px;
+            }
+
+        section#main div.tab-bar {
+            background-image: url('images/tab_background.png');
+            border-bottom: 4px solid #eeeeee;
+            height: 70px;
+            padding: 5px 0 0 0;
+            width:  483px;
+        }
+            section#main div.tab-bar div.tab {
+                background-image: url('images/tab_unselected.png');
+                float: left;
+                height: 70px;
+                text-align: center;
+                width:  118px;
+            }
+                section#main div.tab-bar div.tab img {
+                    margin: 8px 0 3px;
+                }
+                    section#main div.tab-bar div.tab img.selected-image {
+                        display: none;
+                    }
+                    section#main div.tab-bar div.tab img.unselected-image {
+                        display: inline;
+                    }
+                section#main div.tab-bar div.tab div.label {
+                    color: #fff;
+                }
+            section#main div.tab-bar div.tab.selected {
+                background-image: url('images/tab_selected.png');
+            }
+                section#main div.tab-bar div.tab.selected img {
+                }
+                    section#main div.tab-bar div.tab.selected img.selected-image {
+                        display: inline;
+                    }
+                    section#main div.tab-bar div.tab.selected img.unselected-image {
+                        display: none;
+                    }
+                section#main div.tab-bar div.tab.selected div.label {
+                    color: #000;
+                }
+

@@ -57,6 +57,8 @@ function slideNewScreen (current_screen, new_screen) {
 // -----------------------------------------------------------------------------------------------------------------
 
 x$.ready(function () {
+
+    /*
     var clickEvent = "click";
 
     logToScreen(navigator.userAgent);
@@ -66,7 +68,6 @@ x$.ready(function () {
         clickEvent = "touchstart";
     }
 
-    /* Click Events */
     x$("#slide-screen-2").on(clickEvent, function (e) {
         logToScreen(e);
         slideNewScreen("#screen-1", "#screen-2");
@@ -75,5 +76,6 @@ x$.ready(function () {
         logToScreen(e);
         slideNewScreen("#screen-2", "#screen-1");
     });
+    */
 
 });

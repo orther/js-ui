@@ -89,6 +89,11 @@ x$.ready(function () {
     // show chats tab on start
     x$("div.screen#main>div.tabbed-views>div.tab-bar div.tab.chats").click();
 
+    // initialize lists
+    x$("div.list").each(function (val, i) {
+        x$("div.header>span.count", val).html(x$("div.item", val).length);
+    });
+
     /*
     logToScreen(navigator.userAgent);
 

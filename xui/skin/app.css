@@ -9,101 +9,126 @@ body {
  * These are the div elements that make up an entire screen
  */
 div.screen {
-    width: 480px;
+    width: 483px;
     height: 100%;
 }
 
-    div.screen#main {
+/***********************************************************************************************************************
+ * GENERIC VIEWS
+ **********************************************************************************************************************/
+
+/**
+ * TABBED VIEWS
+ */
+div.tabbed-views {
+
+}
+    div.tabbed-views>div.tab-bar {
+        background-image: url('images/tab_background.png');
+        border-bottom: 4px solid #eeeeee;
+        height: 70px;
+        padding: 5px 0 0 0;
+        width:  100%;
+    }
+        div.tabbed-views>div.tab-bar div.tab {
+            background-image: url('images/tab_unselected.png');
+            float: left;
+            height: 70px;
+            text-align: center;
+            width:  118px;
+        }
+            div.tabbed-views>div.tab-bar div.tab img {
+                margin: 8px 0 3px;
+            }
+                div.tabbed-views>div.tab-bar div.tab img.selected-image {
+                    display: none;
+                }
+                div.tabbed-views>div.tab-bar div.tab img.unselected-image {
+                    display: inline;
+                }
+            div.tabbed-views>div.tab-bar div.tab div.label {
+                background-position: center 8px;
+                background-repeat: no-repeat;
+                color: #fff;
+                padding: 50px 0 0 0;
+            }
+        div.tabbed-views>div.tab-bar div.tab.selected {
+            background-image: url('images/tab_selected.png');
+        }
+            div.tabbed-views>div.tab-bar div.tab.selected img {
+            }
+                div.tabbed-views>div.tab-bar div.tab.selected img.selected-image {
+                    display: inline;
+                }
+                div.tabbed-views>div.tab-bar div.tab.selected img.unselected-image {
+                    display: none;
+                }
+            div.tabbed-views>div.tab-bar div.tab.selected div.label {
+                color: #000;
+            }
+    div.tabbed-views>div.tab-content {
+        width: 100%;
+    }
+
+/**********************************************************************************************************************/
+
+/**
+ * LIST
+ */
+div.list {
+    width: 100%;
+}
+    div.list>div.header {
+        background-image: url('images/list_header_background.png');
+        background-repeat: repeat-x;
+        color: #fff;
+        padding: 10px;
+    }
+    div.list>div.items {
 
     }
 
-        /**
-         * Header
-         */
-        div.screen#main div.header {
-            background-image: url('images/header_bar.png');
-            background-repeat: no-repeat;
-            height: 65px;
-            width:  483px;
-        }
-            div.screen#main div.header img.logo {
-                left: 136px;
-                position: absolute;
-                top: 5px;
-                width: 210px;
-            }
+/***********************************************************************************************************************
+ * SCREEN SPECIFIC STYLES
+ **********************************************************************************************************************/
 
-        /**
-         * Tab Bar
-         */
-        div.screen#main div.tab-bar {
-            background-image: url('images/tab_background.png');
-            border-bottom: 4px solid #eeeeee;
-            height: 70px;
-            padding: 5px 0 0 0;
-            width:  483px;
-        }
-            div.screen#main div.tab-bar div.tab {
-                background-image: url('images/tab_unselected.png');
-                float: left;
-                height: 70px;
-                text-align: center;
-                width:  118px;
-            }
-                div.screen#main div.tab-bar div.tab img {
-                    margin: 8px 0 3px;
-                }
-                    div.screen#main div.tab-bar div.tab img.selected-image {
-                        display: none;
-                    }
-                    div.screen#main div.tab-bar div.tab img.unselected-image {
-                        display: inline;
-                    }
-                div.screen#main div.tab-bar div.tab div.label {
-                    background-position: center 8px;
-                    background-repeat: no-repeat;
-                    color: #fff;
-                    padding: 50px 0 0 0;
-                }
-            div.screen#main div.tab-bar div.tab.selected {
-                background-image: url('images/tab_selected.png');
-            }
-                div.screen#main div.tab-bar div.tab.selected img {
-                }
-                    div.screen#main div.tab-bar div.tab.selected img.selected-image {
-                        display: inline;
-                    }
-                    div.screen#main div.tab-bar div.tab.selected img.unselected-image {
-                        display: none;
-                    }
-                div.screen#main div.tab-bar div.tab.selected div.label {
-                    color: #000;
-                }
+/**
+ * Main Screen
+ */
+div.screen#main>div.header {
+    background-image: url('images/header_bar.png');
+    background-repeat: no-repeat;
+    height: 65px;
+    width:  100%;
+}
+    div.screen#main>div.header img.logo {
+        left: 136px;
+        position: absolute;
+        top: 5px;
+        width: 210px;
+    }
+div.screen#main>div.tabbed-views>div.tab-bar div.tab.chats div.label {
+    background-image: url('images/main_tab_chats_unselected.png');
+}
+div.screen#main>div.tabbed-views>div.tab-bar div.tab.chats.selected div.label {
+    background-image: url('images/main_tab_chats_selected.png');
+}
+div.screen#main>div.tabbed-views>div.tab-bar div.tab.friends div.label {
+    background-image: url('images/main_tab_friendslist_unselected.png');
+}
+div.screen#main>div.tabbed-views>div.tab-bar div.tab.friends.selected div.label {
+    background-image: url('images/main_tab_friendslist_selected.png');
+}
+div.screen#main>div.tabbed-views>div.tab-bar div.tab.updates div.label {
+    background-image: url('images/main_tab_updates_unselected.png');
+}
+div.screen#main>div.tabbed-views>div.tab-bar div.tab.updates.selected div.label {
+    background-image: url('images/main_tab_updates_selected.png');
+}
+div.screen#main>div.tabbed-views>div.tab-bar div.tab.me div.label {
+    background-image: url('images/main_tab_myprofile_unselected.png');
+}
+div.screen#main>div.tabbed-views>div.tab-bar div.tab.me.selected div.label {
+    background-image: url('images/main_tab_myprofile_selected.png');
+}
 
-                /**
-                 * Custom Tab Labels
-                 **/
-                div.screen#main div.tab-bar div.tab.chats div.label {
-                    background-image: url('images/main_tab_chats_unselected.png');
-                }
-                div.screen#main div.tab-bar div.tab.chats.selected div.label {
-                    background-image: url('images/main_tab_chats_selected.png');
-                }
-                div.screen#main div.tab-bar div.tab.friends div.label {
-                    background-image: url('images/main_tab_friendslist_unselected.png');
-                }
-                div.screen#main div.tab-bar div.tab.friends.selected div.label {
-                    background-image: url('images/main_tab_friendslist_selected.png');
-                }
-                div.screen#main div.tab-bar div.tab.updates div.label {
-                    background-image: url('images/main_tab_updates_unselected.png');
-                }
-                div.screen#main div.tab-bar div.tab.updates.selected div.label {
-                    background-image: url('images/main_tab_updates_selected.png');
-                }
-                div.screen#main div.tab-bar div.tab.me div.label {
-                    background-image: url('images/main_tab_myprofile_unselected.png');
-                }
-                div.screen#main div.tab-bar div.tab.me.selected div.label {
-                    background-image: url('images/main_tab_myprofile_selected.png');
-                }

@@ -1,5 +1,4 @@
 body {
-    overflow: hidden;
     font-family: Arial, SunSans-Regular, Sans-Serif;
 }
 
@@ -9,10 +8,9 @@ body {
  * These are the div elements that make up an entire screen
  */
 div.screen {
-    width: 483px;
-    height: 640px;
     border: 1px solid #000;
     overflow: hidden;
+    background-color: blue;
 }
 
 /***********************************************************************************************************************
@@ -23,7 +21,8 @@ div.screen {
  * TABBED VIEWS
  */
 div.tabbed-views {
-
+    overflow: hidden;
+    background: #eeeeee;
 }
     div.tabbed-views>div.tab-bar {
         background-image: url('images/tab_background.png');
@@ -83,6 +82,7 @@ div.tabbed-views {
  */
 div.list {
     width: 100%;
+    background-image: url('images/default_background_pattern.png');
 }
     div.list>div.header {
         background-image: url('images/list_header_background.png');
@@ -162,6 +162,7 @@ div.screen#main>div.header {
     background-repeat: no-repeat;
     height: 65px;
     width:  100%;
+    overflow: hidden;
 }
     div.screen#main>div.header img.logo {
         left: 136px;

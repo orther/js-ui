@@ -1,27 +1,48 @@
 /**
- * Log to console or fall back to alert
+ * Return the CSS height of an element as a number. This will retrun the height set in the style with the px, em,
+ * etc... removed and the string number converted to a number.
+ *
+ * @param element (DOMElement)
+ *
+ * @return (number)
  */
-var log = function (log) {
+function getElementCssHeight (element) {
+
+    var heightPattern = /\d+/;
+
     try {
-        console.log(log);
+        var cssHeight = heightPattern.exec(x$(element).getStyle("height")[0]);
     } catch (e) {
-        alert(log);
+        error("Invalid height style for provided element:", element);
     }
-};
+
+}
 
 // -----------------------------------------------------------------------------------------------------------------
 
 /**
- * Log to screen div.
+ * Log to console or fall back to alert
  */
-var logToScreen = function (log) {
-    /*
-    var log_space = document.getElementById("log-data");
+function log () {
+    try {
+        console.log.apply(console, arguments);
+    } catch (e) {
+        alert(log);
+    }
+}
 
-    log_space.innerHTML = log + "<br>" + log_space.innerHTML;
-    */
-    x$(".log-data").top(log + "<br>");
-};
+// -----------------------------------------------------------------------------------------------------------------
+
+/**
+ * Log to console or fall back to alert
+ */
+function error () {
+    try {
+        console.error.apply(console, arguments);
+    } catch (e) {
+        alert(["ERROR:",arguments]);
+    }
+}
 
 // -----------------------------------------------------------------------------------------------------------------
 
@@ -57,50 +78,106 @@ function slideNewScreen (current_screen, new_screen) {
 // -----------------------------------------------------------------------------------------------------------------
 
 /**
- * Add tab view functionality
+ * XUI Extensions
  */
-function tabViewInit (clickEvent) {
-    x$("div.tab-bar div.tab").on(clickEvent, function (e) {
-        /* Toggle Tabs */
-        x$(this.parentNode).find("div.tab").removeClass("selected");
-        x$(this).addClass("selected");
+x$.extend({
 
-        /* Toggle Content */
-        x$(this.parentNode.parentNode).find("div.tab-content").removeClass("selected");
-        var tab_classes = x$(this).attr("class")[0].split(" ");
-        for (var i = 0, len = tab_classes.length; i < len; i++) {
-            if (tab_classes[i] != "tab" && tab_classes[i] != "selected") {
-                x$(this.parentNode.parentNode).find("div.tab-content."+tab_classes[i]).addClass("selected");
-                break;
+    /**
+     * Grow element height to occupy remaing space below available in their parent element.
+     */
+    growTall: function  () {
+        this.each(function (el, i) {
+            //log(getElementCssHeight(el.parentNode));
+            x$(el).setStyle("height", (el.parentNode.scrollHeight - el.offsetTop) + "px");
+        });
+        /*
+        this.each(function (el, i) {
+            log(el.parentNode);
+            log(el.parentNode.offsetHeight, el.offsetTop, el.parentNode.offsetHeight - el.offsetTop);
+            //x$(el).setStyle("height", el.parentNode.offsetHeight - el.offsetTop - 5);
+            /*
+            /*
+            if (x$(el).hasClass("grow_tall")) {
+                // apply grow tall to root element
             }
-        }
-    });
-}
+                // apply grow tall to child elements
+
+
+        });
+        /*
+        x$(selectors).each(function (el, i) {
+            log(el.parentNode.offsetHeight, el.offsetTop, el.parentNode.offsetHeight - el.offsetTop);
+            x$(el).setStyle("height", el.parentNode.offsetHeight - el.offsetTop - 5);
+        });
+        */
+    },
+
+    // -------------------------------------------------------------------------------------------------------------
+
+    /**
+     * Apply tab view functionality
+     *
+     * @param tab_select_event (string)
+     */
+    tabView: function (tab_select_event) {
+        this.on(tab_select_event, function (e) {
+            // toggle tabs
+            x$(this.parentNode).find("div.tab").removeClass("selected");
+            x$(this).addClass("selected");
+
+            // toggle content
+            x$(this.parentNode.parentNode).find("div.tab-content").removeClass("selected");
+            var tab_classes = x$(this).attr("class")[0].split(" ");
+            for (var i = 0, len = tab_classes.length; i < len; i++) {
+                if (tab_classes[i] != "tab" && tab_classes[i] != "selected") {
+                    x$(this.parentNode.parentNode).find("div.tab-content."+tab_classes[i]).addClass("selected")
+                        //.growTall();
+                    break;
+                }
+            }
+        });
+    }
+
+});
+
+// -----------------------------------------------------------------------------------------------------------------
+
+var is_android    = navigator.userAgent.match(/Android/i);
+var is_blackberry = navigator.userAgent.match(/BlackBerry/i);
+var is_iphone     = navigator.userAgent.match(/iPhone/i);
+var is_ipod       = navigator.userAgent.match(/iPod/i);
+
+var is_mobile     = (is_android || is_blackberry || is_iphone || is_ipod);
+
+var click_event   = (is_mobile && !is_blackberry) ? "touchstart" : "click";
+
+var screen_height = 640;
+var screen_width  = 483;
 
 // -----------------------------------------------------------------------------------------------------------------
 
 x$.ready(function () {
 
-    var clickEvent = "click";
+    getElementCssHeight(x$("div.screen")[0]);
+
+    // setup screen size
+    x$("div.screen").setStyle("height", screen_height + "px").setStyle("width", screen_width + "px");
+
+    x$("div.screen#main>div.tabbed-views").growTall();
 
     // initialize tab view functionality
-    tabViewInit(clickEvent);
-
-    // show chats tab on start
-    x$("div.screen#main>div.tabbed-views>div.tab-bar div.tab.chats").click();
+    x$("div.tab-bar div.tab").tabView(click_event);
 
     // initialize lists
     x$("div.list").each(function (val, i) {
         x$("div.header>span.count", val).html(x$("div.item", val).length);
     });
 
+    // show chats tab on start
+    x$("div.screen#main>div.tabbed-views>div.tab-bar div.tab.chats").click();
+
     /*
     logToScreen(navigator.userAgent);
-
-    if ((navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPod/i)) ||
-        (navigator.userAgent.match(/Android/i))) {
-        clickEvent = "touchstart";
-    }
 
     x$("#slide-screen-2").on(clickEvent, function (e) {
         logToScreen(e);

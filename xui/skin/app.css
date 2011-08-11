@@ -10,7 +10,9 @@ body {
  */
 div.screen {
     width: 483px;
-    height: 100%;
+    height: 640px;
+    border: 1px solid #000;
+    overflow: hidden;
 }
 
 /***********************************************************************************************************************
@@ -95,6 +97,13 @@ div.list {
             background-image: url("images/list_background_unselected.png");
             background-repeat: repeat-x;
             overflow: hidden;
+        }
+        div.list>div.items>div.item:hover {
+            background-image: url("images/list_background_highlighted.png");
+        }
+        div.list>div.items>div.item:active {
+            background-image: url("images/list_background_selected.png");
+            color: #fff;
         }
 
 /* Friend List */
@@ -186,5 +195,4 @@ div.screen#main>div.tabbed-views>div.tab-bar div.tab.me.selected div.label {
 }
 
 div.items {
-    height: 400px;
 }

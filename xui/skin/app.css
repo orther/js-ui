@@ -8,7 +8,6 @@ body {
  * These are the div elements that make up an entire screen
  */
 div.screen {
-    border: 1px solid #000;
     overflow: hidden;
     background-color: blue;
     display: none;

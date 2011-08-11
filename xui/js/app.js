@@ -166,6 +166,10 @@ var click_event = (is_mobile && !is_blackberry) ? "touchstart" : "click";
 
 var screen_height = 640;
 var screen_width  = 483;
+if (is_mobile) {
+    screen_height = window.innerHeight;
+    screen_width  = window.innerWidth;
+}
 
 // -----------------------------------------------------------------------------------------------------------------
 
@@ -191,10 +195,10 @@ x$.ready(function () {
     x$("div.screen#main>div.tabbed-views>div.tab-bar div.tab.chats").click();
 
     // setup example screen change buttons
-    x$("#go-to-main-screen").click(function (event) {
+    x$("#go-to-main-screen").on(click_event, function (event) {
         x$("div.screen#main").showScreen();
     });
-    x$("#go-to-chats-screen").click(function (event) {
+    x$("#go-to-chats-screen").on(click_event, function (event) {
         x$("div.screen#chats").showScreen();
     });
 

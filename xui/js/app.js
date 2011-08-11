@@ -83,11 +83,13 @@ x$.ready(function () {
 
     var clickEvent = "click";
 
-    // setup tab functionality
+    // initialize tab view functionality
     tabViewInit(clickEvent);
 
-    /*
+    // show chats tab on start
+    x$("div.screen#main>div.tabbed-views>div.tab-bar div.tab.chats").click();
 
+    /*
     logToScreen(navigator.userAgent);
 
     if ((navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPod/i)) ||

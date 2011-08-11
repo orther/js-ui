@@ -89,6 +89,7 @@ div.list {
         padding: 10px;
     }
     div.list>div.items {
+        overflow: auto;
     }
         div.list>div.items>div.item {
             background-image: url("images/list_background_unselected.png");
@@ -184,3 +185,6 @@ div.screen#main>div.tabbed-views>div.tab-bar div.tab.me.selected div.label {
     background-image: url('images/main_tab_myprofile_selected.png');
 }
 
+div.items {
+    height: 400px;
+}

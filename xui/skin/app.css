@@ -14,7 +14,7 @@ div#window {
 div.screen {
     position: absolute;
     overflow: hidden;
-    background-color: blue;
+    background-color: #000060;
 }
 
 /***********************************************************************************************************************
@@ -200,11 +200,18 @@ div.screen#main>div.tabbed-views>div.tab-bar div.tab.me.selected div.label {
     background-image: url('images/main_tab_myprofile_selected.png');
 }
 
+div.screen#main>div.tabbed-views>div.tab-content.updates {
+    text-align: center;
+}
+
 /**********************************************************************************************************************/
 
 /**
  * Chats Screen
  */
+div.screen#chats {
+    text-align: center;
+}
 div.screen#chats>div.header {
     background-image: url('images/header_bar.png');
     background-repeat: no-repeat;
@@ -212,4 +219,34 @@ div.screen#chats>div.header {
     width:  100%;
     overflow: hidden;
 }
+    div.screen#chats>div.header img.logo {
+        left: 136px;
+        position: absolute;
+        top: 5px;
+        width: 210px;
+    }
 
+/**********************************************************************************************************************/
+
+.go-button {
+	-moz-box-shadow:inset 0px 1px 0px 0px #fbafe3;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #fbafe3;
+	box-shadow:inset 0px 1px 0px 0px #fbafe3;
+	background-color:#ff5bb0;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	border:1px solid #ee1eb5;
+	display:inline-block;
+	color:#ffffff;
+	font-family:arial;
+	font-size:2em;;
+	font-weight:bold;
+	padding: 6px 12px;
+	text-decoration:none;
+	text-shadow:1px 1px 0px #c70067;
+    margin: 10px auto;
+}
+.go-button:hover {
+	background-color:#ef027d;
+}

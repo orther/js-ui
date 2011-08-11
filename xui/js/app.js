@@ -239,10 +239,19 @@ x$.ready(function () {
     });
 
     // show chats tab on start
-    x$("div.screen#main>div.tabbed-views>div.tab-bar div.tab.chats").click();
+    x$("div.screen#main>div.tabbed-views>div.tab-bar div.tab.chats").fire(click_event);
 
     // setup example screen change buttons
-    x$("#go-to-main-screen").on(click_event, function (event) {
+    x$("#go-to-main-screen-chats").on(click_event, function (event) {
+        x$("div.screen#main>div.tabbed-views>div.tab-bar div.tab.chats").fire(click_event);
+        x$("div.screen#main").showScreen();
+    });
+    x$("#go-to-main-screen-friends").on(click_event, function (event) {
+        x$("div.screen#main>div.tabbed-views>div.tab-bar div.tab.friends").fire(click_event);
+        x$("div.screen#main").showScreen();
+    });
+    x$("#go-to-main-screen-updates").on(click_event, function (event) {
+        x$("div.screen#main>div.tabbed-views>div.tab-bar div.tab.updates").fire(click_event);
         x$("div.screen#main").showScreen();
     });
     x$("#go-to-chats-screen").on(click_event, function (event) {

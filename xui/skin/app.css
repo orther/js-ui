@@ -11,6 +11,7 @@ div.screen {
     border: 1px solid #000;
     overflow: hidden;
     background-color: blue;
+    display: none;
 }
 
 /***********************************************************************************************************************
@@ -170,6 +171,7 @@ div.screen#main>div.header {
         top: 5px;
         width: 210px;
     }
+
 div.screen#main>div.tabbed-views>div.tab-bar div.tab.chats div.label {
     background-image: url('images/main_tab_chats_unselected.png');
 }
@@ -195,5 +197,16 @@ div.screen#main>div.tabbed-views>div.tab-bar div.tab.me.selected div.label {
     background-image: url('images/main_tab_myprofile_selected.png');
 }
 
-div.items {
+/**********************************************************************************************************************/
+
+/**
+ * Chats Screen
+ */
+div.screen#chats>div.header {
+    background-image: url('images/header_bar.png');
+    background-repeat: no-repeat;
+    height: 65px;
+    width:  100%;
+    overflow: hidden;
 }
+

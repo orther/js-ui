@@ -112,6 +112,22 @@ x$.extend({
     // -------------------------------------------------------------------------------------------------------------
 
     /**
+     * Show screen.
+     *
+     * @TODO: Update this to animate new screen in and old one out.
+     */
+    showScreen: function () {
+
+        x$("div.screen").setStyle("display", "none");
+        this.setStyle("display", "block");
+
+        return this;
+
+    },
+
+    // -------------------------------------------------------------------------------------------------------------
+
+    /**
      * Apply tab view functionality
      *
      * @param tab_select_event (string)
@@ -158,6 +174,9 @@ x$.ready(function () {
     // setup screen size
     x$("div.screen").setStyle("height", screen_height + "px").setStyle("width", screen_width + "px");
 
+    x$("div.screen#main").showScreen();
+
+    // grow tabbed views to screen height on load
     x$("div.screen#main>div.tabbed-views").growTall();
 
     // initialize tab view functionality
@@ -170,6 +189,14 @@ x$.ready(function () {
 
     // show chats tab on start
     x$("div.screen#main>div.tabbed-views>div.tab-bar div.tab.chats").click();
+
+    // setup example screen change buttons
+    x$("#go-to-main-screen").click(function (event) {
+        x$("div.screen#main").showScreen();
+    });
+    x$("#go-to-chats-screen").click(function (event) {
+        x$("div.screen#chats").showScreen();
+    });
 
     /*
     logToScreen(navigator.userAgent);

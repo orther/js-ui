@@ -27,6 +27,7 @@ div.screen {
 div.tabbed-views {
     overflow: hidden;
     background: #eeeeee;
+    clear: both;
 }
     div.tabbed-views>div.tab-bar {
         background-image: url('images/tab_background.png');
@@ -34,6 +35,7 @@ div.tabbed-views {
         height: 70px;
         padding: 5px 0 0 0;
         width:  100%;
+        overflow: hidden;
     }
         div.tabbed-views>div.tab-bar div.tab {
             background-image: url('images/tab_unselected.png');

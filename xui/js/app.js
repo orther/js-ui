@@ -217,7 +217,7 @@ var screen_width  = 483;
 
 if (is_mobile) {
     screen_height = window.innerHeight;
-    screen_width  = window.innerWidth;
+    //screen_width  = window.innerWidth;
 }
 
 // -----------------------------------------------------------------------------------------------------------------

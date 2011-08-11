@@ -1,26 +1,4 @@
 /**
- * Return the CSS height of an element as a number. This will retrun the height set in the style with the px, em,
- * etc... removed and the string number converted to a number.
- *
- * @param element (DOMElement)
- *
- * @return (number)
- */
-function getElementCssHeight (element) {
-
-    var heightPattern = /\d+/;
-
-    try {
-        var cssHeight = heightPattern.exec(x$(element).getStyle("height")[0]);
-    } catch (e) {
-        error("Invalid height style for provided element:", element);
-    }
-
-}
-
-// -----------------------------------------------------------------------------------------------------------------
-
-/**
  * Log to console or fall back to alert
  */
 function log () {
@@ -83,33 +61,52 @@ function slideNewScreen (current_screen, new_screen) {
 x$.extend({
 
     /**
-     * Grow element height to occupy remaing space below available in their parent element.
+     * Return the CSS height in pixels for first element in passed collection.
+     *
+     * @return (number) -1 returned when height can not be determined.
+     */
+    getCssHeight: function () {
+
+        try {
+            if (this.length) {
+                return parseInt(/\d+/.exec(this.getStyle("height")[0]));
+            }
+        } catch (e) {
+            error("Invalid height style for provided element:", element);
+        }
+
+        return -1;
+
+    },
+
+    // -------------------------------------------------------------------------------------------------------------
+
+    /**
+     * Grow all elements in collection's height to occupy available space below in their container element.
      */
     growTall: function  () {
-        this.each(function (el, i) {
-            //log(getElementCssHeight(el.parentNode));
-            x$(el).setStyle("height", (el.parentNode.scrollHeight - el.offsetTop) + "px");
-        });
-        /*
-        this.each(function (el, i) {
-            log(el.parentNode);
-            log(el.parentNode.offsetHeight, el.offsetTop, el.parentNode.offsetHeight - el.offsetTop);
-            //x$(el).setStyle("height", el.parentNode.offsetHeight - el.offsetTop - 5);
-            /*
-            /*
-            if (x$(el).hasClass("grow_tall")) {
-                // apply grow tall to root element
-            }
-                // apply grow tall to child elements
 
+        this.each(function (el, i) {
+            x$(el).setCssHeight(x$(el.parentNode).getCssHeight() - el.offsetTop);
+        });
 
-        });
-        /*
-        x$(selectors).each(function (el, i) {
-            log(el.parentNode.offsetHeight, el.offsetTop, el.parentNode.offsetHeight - el.offsetTop);
-            x$(el).setStyle("height", el.parentNode.offsetHeight - el.offsetTop - 5);
-        });
-        */
+        return this;
+
+    },
+
+    // -------------------------------------------------------------------------------------------------------------
+
+    /**
+     * Set the CSS height in pixels for first all element in passed collection.
+     *
+     * @param height (number) Height in pixels.
+     */
+    setCssHeight: function (height) {
+
+        this.setStyle("height", height + "px");
+
+        return this;
+
     },
 
     // -------------------------------------------------------------------------------------------------------------
@@ -120,6 +117,7 @@ x$.extend({
      * @param tab_select_event (string)
      */
     tabView: function (tab_select_event) {
+
         this.on(tab_select_event, function (e) {
             // toggle tabs
             x$(this.parentNode).find("div.tab").removeClass("selected");
@@ -127,15 +125,15 @@ x$.extend({
 
             // toggle content
             x$(this.parentNode.parentNode).find("div.tab-content").removeClass("selected");
-            var tab_classes = x$(this).attr("class")[0].split(" ");
-            for (var i = 0, len = tab_classes.length; i < len; i++) {
-                if (tab_classes[i] != "tab" && tab_classes[i] != "selected") {
-                    x$(this.parentNode.parentNode).find("div.tab-content."+tab_classes[i]).addClass("selected")
-                        //.growTall();
+            var classes = x$(this).attr("class")[0].split(" ");
+            for (var i = 0, len = classes.length; i < len; i++) {
+                if (classes[i] != "tab" && classes[i] != "selected") {
+                    x$("div.tab-content."+classes[i], this.parentNode.parentNode).addClass("selected").growTall();
                     break;
                 }
             }
         });
+
     }
 
 });
@@ -146,10 +144,9 @@ var is_android    = navigator.userAgent.match(/Android/i);
 var is_blackberry = navigator.userAgent.match(/BlackBerry/i);
 var is_iphone     = navigator.userAgent.match(/iPhone/i);
 var is_ipod       = navigator.userAgent.match(/iPod/i);
-
 var is_mobile     = (is_android || is_blackberry || is_iphone || is_ipod);
 
-var click_event   = (is_mobile && !is_blackberry) ? "touchstart" : "click";
+var click_event = (is_mobile && !is_blackberry) ? "touchstart" : "click";
 
 var screen_height = 640;
 var screen_width  = 483;
@@ -157,8 +154,6 @@ var screen_width  = 483;
 // -----------------------------------------------------------------------------------------------------------------
 
 x$.ready(function () {
-
-    getElementCssHeight(x$("div.screen")[0]);
 
     // setup screen size
     x$("div.screen").setStyle("height", screen_height + "px").setStyle("width", screen_width + "px");

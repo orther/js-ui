@@ -56,9 +56,36 @@ function slideNewScreen (current_screen, new_screen) {
 
 // -----------------------------------------------------------------------------------------------------------------
 
+/**
+ * Add tab view functionality
+ */
+function tabViewInit (clickEvent) {
+    x$("div.tab-bar div.tab").on(clickEvent, function (e) {
+        /* Toggle Tabs */
+        x$(this.parentNode).find("div.tab").removeClass("selected");
+        x$(this).addClass("selected");
+
+        /* Toggle Content */
+        x$(this.parentNode.parentNode).find("div.tab-content").removeClass("selected");
+        var tab_classes = x$(this).attr("class")[0].split(" ");
+        for (var i = 0, len = tab_classes.length; i < len; i++) {
+            if (tab_classes[i] != "tab" && tab_classes[i] != "selected") {
+                x$(this.parentNode.parentNode).find("div.tab-content."+tab_classes[i]).addClass("selected");
+                break;
+            }
+        }
+    });
+}
+
+// -----------------------------------------------------------------------------------------------------------------
+
 x$.ready(function () {
 
     var clickEvent = "click";
+
+    // setup tab functionality
+    tabViewInit(clickEvent);
+
     /*
 
     logToScreen(navigator.userAgent);
@@ -77,9 +104,5 @@ x$.ready(function () {
         slideNewScreen("#screen-2", "#screen-1");
     });
     */
-    x$("#main div.tab-bar div.tab").on(clickEvent, function (e) {
-        x$("#main div.tab-bar div.tab").removeClass("selected");
-        x$(this).addClass("selected");
-    });
 
 });

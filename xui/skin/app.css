@@ -68,6 +68,10 @@ div.tabbed-views {
             }
     div.tabbed-views>div.tab-content {
         width: 100%;
+        display: none;
+    }
+    div.tabbed-views>div.tab-content.selected {
+        display: block;
     }
 
 /**********************************************************************************************************************/

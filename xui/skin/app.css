@@ -2,15 +2,19 @@ body {
     font-family: Arial, SunSans-Regular, Sans-Serif;
 }
 
+div#window {
+    overflow: hidden;
+}
+
 /**
  * Screen Views
  *
  * These are the div elements that make up an entire screen
  */
 div.screen {
+    position: absolute;
     overflow: hidden;
     background-color: blue;
-    display: none;
 }
 
 /***********************************************************************************************************************

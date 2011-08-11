@@ -112,14 +112,39 @@ x$.extend({
     // -------------------------------------------------------------------------------------------------------------
 
     /**
+     * Set the first item in the collection passed as the active screen.
+     */
+    setScreenActive: function () {
+
+        x$("div.screen.active").setStyle("display", "none").removeClass("active");
+        this.addClass("active");
+
+        return this;
+
+    },
+
+    // -------------------------------------------------------------------------------------------------------------
+
+    /**
      * Show screen.
-     *
-     * @TODO: Update this to animate new screen in and old one out.
      */
     showScreen: function () {
 
-        x$("div.screen").setStyle("display", "none");
-        this.setStyle("display", "block");
+        var current_screen = x$("div.screen.active");
+        var new_screen     = this;
+
+        new_screen.setStyle("left", screen_width + "px").setStyle("z-index", "10").setStyle("display", "block");
+        current_screen.setStyle("left", "0px").setStyle("z-index", "1").tween({
+            left: "-" + (screen_width - 20)+ "px",
+            duration: 300
+        });
+        new_screen.tween({
+            left:'0px',
+            duration: 300,
+        }, function () {
+            new_screen.setScreenActive();
+        });
+
 
         return this;
 
@@ -150,6 +175,29 @@ x$.extend({
             }
         });
 
+    },
+
+    // -------------------------------------------------------------------------------------------------------------
+
+    /**
+     * Setup window and screen for current display and show first screen.
+     *
+     * @param load_screen_id (string) ID of screen to be displayed on load.
+     */
+    windowInit: function (load_screen_id) {
+
+        // setup window
+        x$("div#window").setStyle("height", screen_height + "px").setStyle("width", screen_width + "px");
+
+        // setup all screens
+        x$("div.screen").setStyle("display", "none").setStyle("height", screen_height + "px")
+            .setStyle("width", screen_width + "px");
+
+        // show first screen
+        x$("#" + load_screen_id).setStyle("display", "block");
+
+        return this;
+
     }
 
 });
@@ -166,6 +214,7 @@ var click_event = (is_mobile && !is_blackberry) ? "touchstart" : "click";
 
 var screen_height = 640;
 var screen_width  = 483;
+
 if (is_mobile) {
     screen_height = window.innerHeight;
     screen_width  = window.innerWidth;
@@ -175,10 +224,8 @@ if (is_mobile) {
 
 x$.ready(function () {
 
-    // setup screen size
-    x$("div.screen").setStyle("height", screen_height + "px").setStyle("width", screen_width + "px");
-
-    x$("div.screen#main").showScreen();
+    // initialize window and set main screen to show on load
+    x$("div#window").windowInit("main");
 
     // grow tabbed views to screen height on load
     x$("div.screen#main>div.tabbed-views").growTall();

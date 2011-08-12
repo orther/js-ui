@@ -14,7 +14,7 @@ div#window {
 div.screen {
     position: absolute;
     overflow: hidden;
-    background-color: #000060;
+    background-color: #fff000;
 }
 
 /***********************************************************************************************************************
@@ -30,11 +30,12 @@ div.tabbed-views {
     clear: both;
 }
     div.tabbed-views>div.tab-bar {
+        background-color: #000;
         background-image: url('images/tab_background.png');
+        background-repeat: no-repeat;
         border-bottom: 4px solid #eeeeee;
         height: 70px;
         padding: 5px 0 0 0;
-        width:  100%;
         overflow: hidden;
     }
         div.tabbed-views>div.tab-bar div.tab {
@@ -227,6 +228,29 @@ div.screen#chats>div.header {
         top: 5px;
         width: 210px;
     }
+div.screen#chats>div.holder {
+    background-color: #3bae08;
+}
+    div.screen#chats>div.holder>div.name {
+        -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+        -webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+        box-shadow:inset 0px 1px 0px 0px #ffffff;
+        background-color:#f9f9f9;
+        -moz-border-radius:6px;
+        -webkit-border-radius:6px;
+        border-radius:6px;
+        border:1px solid #dcdcdc;
+        display:inline-block;
+        color:#666666;
+        font-family:arial;
+        font-size:2.5em;;
+        font-weight:bold;
+        padding: 6px 12px;
+        text-decoration:none;
+        text-shadow:1px 1px 0px #ffffff;
+        margin: 10px auto;
+        width: 94%;
+    }
 
 /**********************************************************************************************************************/
 
@@ -248,6 +272,7 @@ div.screen#chats>div.header {
 	text-decoration:none;
 	text-shadow:1px 1px 0px #c70067;
     margin: 10px auto;
+    width: 94%;
 }
 .go-button:hover {
 	background-color:#ef027d;

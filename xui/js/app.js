@@ -25,37 +25,6 @@ function error () {
 // -----------------------------------------------------------------------------------------------------------------
 
 /**
- * Slide from one screen to the next.
- *
- * @param current_screen (HTMLDivElement)
- * @param new_screen     (HTMLDivElement)
- */
-function slideNewScreen (current_screen, new_screen) {
-
-    x$(new_screen).setStyle("left", document.body.offsetWidth + "px");
-    x$(new_screen).setStyle("backgroundColor", "orange");
-    x$(new_screen).setStyle("z-index", "10");
-    x$(current_screen).setStyle("left", "0px");
-    x$(current_screen).setStyle("z-index", "1");
-    x$(current_screen).tween({
-        left: "-" + (document.body.offsetWidth - 20)+ "px",
-        duration: 300
-    });
-    x$(new_screen).tween({
-        left:'0px',
-        duration: 300,
-    }, function () {
-        x$(new_screen).tween({
-            backgroundColor: "#e0e0e0",
-            duration: 500
-        });
-    });
-
-}
-
-// -----------------------------------------------------------------------------------------------------------------
-
-/**
  * XUI Extensions
  */
 x$.extend({
@@ -194,7 +163,7 @@ x$.extend({
             .setStyle("width", screen_width + "px");
 
         // show first screen
-        x$("#" + load_screen_id).setStyle("display", "block");
+        x$("#" + load_screen_id).setStyle("display", "block").setScreenActive();
 
         return this;
 
@@ -215,10 +184,8 @@ var click_event = (is_mobile && !is_blackberry) ? "touchstart" : "click";
 var screen_height = 640;
 var screen_width  = 483;
 
-if (is_mobile) {
-    screen_height = window.innerHeight;
-    //screen_width  = window.innerWidth;
-}
+screen_height = window.innerHeight;
+screen_width  = window.innerWidth;
 
 // -----------------------------------------------------------------------------------------------------------------
 
@@ -241,6 +208,13 @@ x$.ready(function () {
     // show chats tab on start
     x$("div.screen#main>div.tabbed-views>div.tab-bar div.tab.chats").fire(click_event);
 
+    /**
+     * EXAMPLE SETUP
+     */
+
+    // grow chat holder view
+    x$("div.screen#chats>div.holder").growTall();
+
     // setup example screen change buttons
     x$("#go-to-main-screen-chats").on(click_event, function (event) {
         x$("div.screen#main>div.tabbed-views>div.tab-bar div.tab.chats").fire(click_event);
@@ -255,20 +229,15 @@ x$.ready(function () {
         x$("div.screen#main").showScreen();
     });
     x$("#go-to-chats-screen").on(click_event, function (event) {
+        x$("div.screen#chats>div.holder>div.name").setStyle("display", "none");
         x$("div.screen#chats").showScreen();
     });
 
-    /*
-    logToScreen(navigator.userAgent);
-
-    x$("#slide-screen-2").on(clickEvent, function (e) {
-        logToScreen(e);
-        slideNewScreen("#screen-1", "#screen-2");
+    // setup friend list on click event chang
+    x$("div.list div.item").on(click_event, function (event) {
+        x$("div.screen#chats>div.holder>div.name").html("Chat: "  + x$("div.details div.name", this).html()[0])
+            .setStyle("display", "inline-block");
+        x$("div.screen#chats").showScreen();
     });
-    x$("#slide-screen-1").on(clickEvent, function (e) {
-        logToScreen(e);
-        slideNewScreen("#screen-2", "#screen-1");
-    });
-    */
 
 });

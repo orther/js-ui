@@ -8,7 +8,8 @@ Use whatever HTTP server to serve up this project as the root directory.
 
 1. From the root of this project start python's simple HTTP server.
 
-  ```
-	python -m SimpleHTTPServer
-	```
+    ```
+    python -m SimpleHTTPServer
+    ```
+
 2. Then point your browser to `http://localhost:8000`
